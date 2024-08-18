@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: app
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/var/www/html
+    networks:
+      - app-network
+
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - app
+    networks:
+      - app-network
+
+networks:
+  app-network:
