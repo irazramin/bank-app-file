@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   app:
@@ -10,6 +10,11 @@ services:
       - ./src:/var/www/html
     networks:
       - app-network
+    environment:
+      - DB_HOST=mysql
+      - DB_NAME=bank_app_db
+      - DB_USER=app_user
+      - DB_PASSWORD=secure_password123
 
   nginx:
     container_name: nginx
@@ -25,5 +30,35 @@ services:
     networks:
       - app-network
 
+  mysql:
+    container_name: mysql
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: bank_app_db
+      MYSQL_USER: app_user
+      MYSQL_PASSWORD: secure_password123
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+    networks:
+      - app-network
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: app_user
+      PMA_PASSWORD: secure_password123
+    ports:
+      - "8080:80"
+    networks:
+      - app-network
+
 networks:
   app-network:
+
+volumes:
+  mysql_data:

@@ -7,8 +7,9 @@ class Registration
 {
     private Files $files;
 
-    public function __construct(private User $user) {
-        $this->files = new Files("../users.txt");
+    public function __construct(private User $user)
+    {
+        $this->files = new Files("/var/www/html/src/data/users.json");
 
     }
     public function register(): void
@@ -21,7 +22,7 @@ class Registration
             'email' => $this->user->getEmail(),
             'password' => $this->user->getPassword(),
             'balance' => 0,
-            'role'=> 'user'
+            'role' => 'user'
         ];
 
         $convertIntoString = json_encode($users);

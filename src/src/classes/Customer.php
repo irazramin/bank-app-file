@@ -12,16 +12,16 @@ class Customer extends User
 
     public function __construct()
     {
-//        parent::__construct("ir bayejid", "irazramin@gmail.com");
-        $this->userFiles = new Files("../users.txt");
-        $this->transactionFiles = new Files("../transactions.txt");
+        //        parent::__construct("ir bayejid", "irazramin@gmail.com");
+        $this->userFiles = new Files("/var/www/html/src/data/users.json");
+        $this->transactionFiles = new Files("/var/www/html/src/data/transactions.json");
     }
 
     public function getAllCustomers(): array
     {
         $customers = [];
         $users = $this->userFiles->getFileData();
-        $users = (array)json_decode($users, true);
+        $users = (array) json_decode($users, true);
 
         foreach ($users as $customer) {
             if ($customer["email"] !== $this->getEmail()) {
@@ -31,14 +31,15 @@ class Customer extends User
         return $customers;
     }
 
-    public function getSingleCustomer($email): array {
+    public function getSingleCustomer($email): array
+    {
 
         $customer = [];
         $users = $this->userFiles->getFileData();
-        $users = (array)json_decode($users, true);
+        $users = (array) json_decode($users, true);
 
         foreach ($users as $user) {
-            if($user["email"] == $email) {
+            if ($user["email"] == $email) {
                 $customer = $user;
             }
         }
@@ -49,7 +50,7 @@ class Customer extends User
     public function addAmount($amount): void
     {
         $users = $this->userFiles->getFileData();
-        $users = (array)json_decode($users, true);
+        $users = (array) json_decode($users, true);
 
         foreach ($users as $userIndex => $user) {
             if ($user["email"] == $this->getEmail()) {
@@ -62,7 +63,7 @@ class Customer extends User
     public function showBalance()
     {
         $users = $this->userFiles->getFileData();
-        $users = (array)json_decode($users, true);
+        $users = (array) json_decode($users, true);
 
         foreach ($users as $user) {
             if ($user["email"] == $this->getEmail()) {
@@ -76,7 +77,7 @@ class Customer extends User
     public function withdrawAmount($amount): void
     {
         $users = $this->userFiles->getFileData();
-        $users = (array)json_decode($users, true);
+        $users = (array) json_decode($users, true);
 
         foreach ($users as $userIndex => $user) {
             if ($user["email"] == $this->getEmail()) {
@@ -91,7 +92,7 @@ class Customer extends User
         $errors = [];
         $transactionInfo = [];
         $users = $this->userFiles->getFileData();
-        $users = (array)json_decode($users, true);
+        $users = (array) json_decode($users, true);
 
         $existingTransactions = $this->transactionFiles->getFileData();
         $existingTransactions = json_decode($existingTransactions, true);
@@ -143,7 +144,7 @@ class Customer extends User
     {
         $myTransactions = [];
         $transactions = $this->transactionFiles->getFileData();
-        $transactions = (array)json_decode($transactions, true);
+        $transactions = (array) json_decode($transactions, true);
         foreach ($transactions as $transactionIndex => $transaction) {
             if ($transaction["senderEmail"] === $email) {
                 $myTransactions[] = $transaction;
@@ -158,7 +159,7 @@ class Customer extends User
     public function seeAllTransactions(): array
     {
         $transactions = $this->transactionFiles->getFileData();
-        return (array)json_decode($transactions, true);
+        return (array) json_decode($transactions, true);
     }
 
 }

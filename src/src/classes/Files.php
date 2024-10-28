@@ -6,6 +6,7 @@ class Files
 {
     public function __construct(private string $fileName)
     {
+        var_export($this->fileName);
         $this->checkFileExist();
     }
 
@@ -16,7 +17,8 @@ class Files
         }
     }
 
-    public function saveData($data): void {
+    public function saveData($data): void
+    {
         file_put_contents("$this->fileName", $data);
     }
 
